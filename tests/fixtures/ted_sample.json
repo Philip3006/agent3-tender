@@ -1,0 +1,59 @@
+{
+  "notices": [
+    {
+      "publication-number": "2024/S-001-000001",
+      "notice-title": {
+        "deu": "Transportdienstleistungen für Bundesbehörde Berlin",
+        "eng": "Transport services for federal agency Berlin"
+      },
+      "buyer-name": [
+        {"name": "Bundesamt für Güterverkehr", "lang": "DEU"}
+      ],
+      "deadline-date": "2025-06-30T12:00:00Z",
+      "publication-date": "2024-01-15",
+      "notice-type": "cn-standard",
+      "cpv-list": [{"code": "60000000"}],
+      "country-code": "DEU"
+    },
+    {
+      "publication-number": "2024/S-001-000002",
+      "notice-title": {
+        "deu": "Kurierdienste und Paketbeförderung Wien",
+        "eng": "Courier and parcel services Vienna"
+      },
+      "buyer-name": [
+        {"name": "Stadt Wien", "lang": "DEU"}
+      ],
+      "deadline-date": "2025-08-15T10:00:00Z",
+      "publication-date": "2024-01-16",
+      "notice-type": "cn-social",
+      "cpv-list": [{"code": "64120000"}, {"code": "63000000"}],
+      "country-code": "AUT"
+    },
+    {
+      "publication-number": "2024/S-001-000003",
+      "notice-title": {
+        "deu": "Vergabe Lagerlogistik Zürich"
+      },
+      "buyer-name": [
+        {"name": "Kanton Zürich, Baudirektion"}
+      ],
+      "publication-date": "2020-03-01",
+      "notice-type": "can-standard",
+      "cpv-list": [{"code": "63100000"}],
+      "country-code": "CHE"
+    },
+    {
+      "publication-number": "",
+      "notice-title": {"deu": "Kein Pub-Nummer"},
+      "notice-type": "cn-standard"
+    },
+    {
+      "publication-number": "2024/S-001-000099",
+      "notice-title": {},
+      "notice-type": "cn-standard",
+      "country-code": "DEU"
+    }
+  ],
+  "totalNoticeCount": 5
+}

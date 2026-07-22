@@ -1,0 +1,25 @@
+schedule: "0 6 */2 * *"       # alle 2 Tage, 06:00 UTC
+lookback_days: 4              # Überlappung → Dedupe fängt Wochenenden ab
+countries: [DEU, AUT, CHE]
+cpv:
+  - "60000000"   # Transportdienstleistungen
+  - "60100000"   # Straßenverkehr
+  - "60200000"   # Eisenbahn
+  - "60600000"   # Wasserverkehr
+  - "63000000"   # unterstützende Transportdienstleistungen
+  - "63100000"   # Lagerung
+  - "63500000"   # Reisebüro / KEP-nah
+  - "64120000"   # Kurierdienste
+notice_types: [pin, cn, can]  # can = Basis für Re-Tender-Prognose
+min_score: 0.55
+retender_years: 4             # typische Vertragslaufzeit in Jahren
+health_min_count:
+  ted: 5
+  oeffentlichevergabe: 5
+  signals: 2
+scoring:
+  model: "claude-haiku-4-5-20251001"
+  concurrency: 4
+digest:
+  smtp_from: "agent3@example.com"
+  dashboard_title: "Agent 3 — Transport-/Logistik-Ausschreibungen DACH"

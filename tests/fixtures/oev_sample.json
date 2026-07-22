@@ -1,0 +1,57 @@
+{
+  "elements": [
+    {
+      "noticeIdentifier": "dffb17a9-970d-4a76-945d-0c91f1e53839",
+      "noticeVersion": "01",
+      "noticeTitle": [{"value": "Speditionsleistungen für Stadtwerke München", "languageId": "DEU"}],
+      "lotIdentifier": "LOT-0001",
+      "lotTitle": [{"value": "Los 1 - Speditionsleistungen", "languageId": "DEU"}],
+      "mainNature": "services",
+      "procedureIdentifier": "f132ed21-2c09-4a16-8663-7e2bebca1670",
+      "originalNoticeIdentifier": "dffb17a9-970d-4a76-945d-0c91f1e53839",
+      "noticeType": "cn-standard",
+      "buyers": [{"name": "Stadtwerke München GmbH"}],
+      "placesOfPerformance": [{"country": "DEU", "nutsCode": "DE21H"}],
+      "mainCpvCode": "60000000",
+      "firstDeadline": "2025-04-30T12:00:00+02:00",
+      "deadlineReceiptTenders": "2025-04-30T12:00:00+02:00",
+      "publicationDate": "2024-01-15T00:00:00+01:00",
+      "eformsVersion": "eforms-de-1.14"
+    },
+    {
+      "noticeIdentifier": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "noticeVersion": "01",
+      "noticeTitle": [{"value": "KEP-Dienste Bundesministerium Hamburg", "languageId": "DEU"}],
+      "lotIdentifier": "LOT-0001",
+      "lotTitle": [{"value": "KEP-Dienste Hamburg", "languageId": "DEU"}],
+      "mainNature": "services",
+      "procedureIdentifier": "b0a3b8b3-36d9-4a93-820f-df8aebfd653e",
+      "originalNoticeIdentifier": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "noticeType": "can-standard",
+      "buyers": [{"name": "Freie und Hansestadt Hamburg, Behörde für Inneres"}],
+      "placesOfPerformance": [{"country": "DEU", "nutsCode": "DE600"}],
+      "mainCpvCode": "64120000",
+      "publicationDate": "2024-01-20T00:00:00+01:00",
+      "eformsVersion": "eforms-de-1.14"
+    },
+    {
+      "noticeIdentifier": "",
+      "noticeTitle": [{"value": "Kein Identifier", "languageId": "DEU"}],
+      "noticeType": "cn-standard",
+      "buyers": [],
+      "placesOfPerformance": [],
+      "publicationDate": "2024-01-21T00:00:00+01:00"
+    },
+    {
+      "noticeIdentifier": "99999999-0000-0000-0000-000000000000",
+      "noticeTitle": [],
+      "lotTitle": [],
+      "noticeType": "cn-standard",
+      "buyers": [],
+      "placesOfPerformance": [],
+      "publicationDate": "2024-01-22T00:00:00+01:00"
+    }
+  ],
+  "totalElements": 4,
+  "offset": 0
+}

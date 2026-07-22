@@ -1,0 +1,39 @@
+name: agent3-tender
+on:
+  schedule:
+    - cron: "0 6 */2 * *"
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync --frozen
+      - run: uv run ruff check .
+      - run: uv run pytest -v --tb=short
+        env:
+          PYTHONPATH: src
+
+  run:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync --frozen
+      - run: uv run python -m agent3_tender.run
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SMTP_URL: ${{ secrets.SMTP_URL }}
+          DIGEST_RECIPIENT: ${{ secrets.DIGEST_RECIPIENT }}
+          BA_JOBS_API_KEY: ${{ secrets.BA_JOBS_API_KEY }}
+          AMS_JOBS_API_KEY: ${{ secrets.AMS_JOBS_API_KEY }}
+          PYTHONPATH: src
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
