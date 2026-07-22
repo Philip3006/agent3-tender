@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import logging
 import sqlite3
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 from .models import Item, Score
@@ -118,10 +118,18 @@ class Store:
         cur = self._conn.execute("SELECT hash, source, buyer, title, deadline FROM items")
         return [dict(row) for row in cur.fetchall()]
 
-    def all_scored_for_digest(self, min_score: float) -> list[tuple[Item, Score]]:
-        cur = self._conn.execute(
-            "SELECT * FROM items WHERE score_json IS NOT NULL ORDER BY deadline ASC NULLS LAST"
-        )
+    def all_scored_for_digest(self, min_score: float, digest_days: int = 0) -> list[tuple[Item, Score]]:
+        if digest_days > 0:
+            cutoff = (datetime.now(UTC) - timedelta(days=digest_days)).isoformat()
+            cur = self._conn.execute(
+                "SELECT * FROM items WHERE score_json IS NOT NULL AND last_seen_at >= ?"
+                " ORDER BY deadline ASC NULLS LAST",
+                (cutoff,),
+            )
+        else:
+            cur = self._conn.execute(
+                "SELECT * FROM items WHERE score_json IS NOT NULL ORDER BY deadline ASC NULLS LAST"
+            )
         results = []
         for row in cur.fetchall():
             score = Score.model_validate_json(row["score_json"])

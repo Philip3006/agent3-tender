@@ -1,4 +1,4 @@
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 
 import pytest
 
@@ -82,6 +82,21 @@ def test_items_without_score_excluded_from_digest(store: Store):
     store.upsert_item(_item("UNSCORED"))
     results = store.all_scored_for_digest(min_score=0.0)
     assert all(r[0].external_id != "UNSCORED" for r in results)
+
+
+def test_digest_days_excludes_old_items(store: Store):
+    store.upsert_item(_item("OLD"), _score())
+    # Backdate last_seen_at to 90 days ago
+    store._conn.execute(
+        "UPDATE items SET last_seen_at = ? WHERE external_id = ?",
+        ((datetime.now(UTC) - timedelta(days=90)).isoformat(), "OLD"),
+    )
+    store._conn.commit()
+    store.upsert_item(_item("NEW"), _score())
+    results = store.all_scored_for_digest(min_score=0.0, digest_days=30)
+    ids = [r[0].external_id for r in results]
+    assert "NEW" in ids
+    assert "OLD" not in ids
 
 
 def test_record_run_creates_and_updates(store: Store):

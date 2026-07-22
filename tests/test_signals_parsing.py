@@ -229,7 +229,15 @@ async def test_fetch_ba_jobs_returns_items(monkeypatch):
 # ── _fetch_ams_jobs (mocked HTTP) ─────────────────────────────────────────────
 
 @pytest.mark.asyncio
-async def test_fetch_ams_jobs_returns_items():
+async def test_fetch_ams_jobs_no_api_key_returns_empty(monkeypatch):
+    monkeypatch.delenv("AMS_JOBS_API_KEY", raising=False)
+    items = await _fetch_ams_jobs({})
+    assert items == []
+
+
+@pytest.mark.asyncio
+async def test_fetch_ams_jobs_returns_items(monkeypatch):
+    monkeypatch.setenv("AMS_JOBS_API_KEY", "test-key")
     jobs_resp = {
         "content": [
             {
@@ -237,7 +245,7 @@ async def test_fetch_ams_jobs_returns_items():
                 "title": "Speditionsleiter",
                 "company": "Österreich Logistik GmbH",
                 "publishedAt": "2025-03-15T00:00:00Z",
-                "url": "https://jobs.ams.or.at/jobs/AT-9876",
+                "url": "https://jobs.ams.at/public/emps/joboffer/AT-9876",
             }
         ]
     }
@@ -251,7 +259,8 @@ async def test_fetch_ams_jobs_returns_items():
 
 
 @pytest.mark.asyncio
-async def test_fetch_ams_jobs_skips_missing_id():
+async def test_fetch_ams_jobs_skips_missing_id(monkeypatch):
+    monkeypatch.setenv("AMS_JOBS_API_KEY", "test-key")
     jobs_resp = {"content": [{"title": "Kein ID"}]}
     with patch("agent3_tender.sources.signals.get_json", new=AsyncMock(return_value=jobs_resp)):
         items = await _fetch_ams_jobs({})
@@ -259,7 +268,8 @@ async def test_fetch_ams_jobs_skips_missing_id():
 
 
 @pytest.mark.asyncio
-async def test_fetch_ams_jobs_api_error_returns_empty():
+async def test_fetch_ams_jobs_api_error_returns_empty(monkeypatch):
+    monkeypatch.setenv("AMS_JOBS_API_KEY", "test-key")
     with patch(
         "agent3_tender.sources.signals.get_json",
         new=AsyncMock(side_effect=Exception("timeout")),

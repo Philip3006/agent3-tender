@@ -12,6 +12,7 @@ cpv:
   - "64120000"   # Kurierdienste
 notice_types: [pin, cn, can]  # can = Basis für Re-Tender-Prognose
 min_score: 0.55
+digest_days: 60          # Dashboard zeigt nur Items der letzten 60 Tage
 retender_years: 4             # typische Vertragslaufzeit in Jahren
 health_min_count:
   ted: 5

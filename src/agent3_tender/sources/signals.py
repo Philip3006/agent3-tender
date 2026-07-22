@@ -171,14 +171,17 @@ async def _fetch_ba_jobs(cfg: dict) -> list[Item]:
 
 # ── AMS Österreich ────────────────────────────────────────────────────────────
 
-_AMS_URL = "https://jobs.ams.or.at/public/api/v1/jobs"
-_AMS_JOB_URL = "https://jobs.ams.or.at/jobs/{job_id}"
+_AMS_URL = "https://jobs.ams.at/public/emps/api/search"
+_AMS_JOB_URL = "https://jobs.ams.at/public/emps/joboffer/{job_id}"
 _AMS_TERMS = ["Logistikleiter", "Speditionsleiter"]
 
 
 async def _fetch_ams_jobs(cfg: dict) -> list[Item]:
     api_key = os.environ.get("AMS_JOBS_API_KEY")
-    headers = {"X-API-Key": api_key} if api_key else {}
+    if not api_key:
+        logger.info("AMS_JOBS_API_KEY nicht gesetzt — AMS-Jobs übersprungen")
+        return []
+    headers = {"Authorization": f"Bearer {api_key}"}
     items: list[Item] = []
 
     for term in _AMS_TERMS:
@@ -225,12 +228,12 @@ async def _fetch_ams_jobs(cfg: dict) -> list[Item]:
 
 # ── Web-News-Signale (synthetisch — LLM sucht im Scoring via web_search) ──────
 
-_WEB_NEWS_QUERIES: list[tuple[str, str]] = [
-    ("Lagerhalle Neubau Schweiz 2025", "CHE"),
-    ("Logistikzentrum Bau Zürich 2025", "CHE"),
-    ("Spedition Ausschreibung Schweiz 2025", "CHE"),
-    ("Lagerbau Österreich 2025", "AUT"),
-    ("Logistikimmobilie Neubau Deutschland 2025", "DEU"),
+_WEB_NEWS_QUERY_TEMPLATES: list[tuple[str, str]] = [
+    ("Lagerhalle Neubau Schweiz {year}", "CHE"),
+    ("Logistikzentrum Bau Zürich {year}", "CHE"),
+    ("Spedition Ausschreibung Schweiz {year}", "CHE"),
+    ("Lagerbau Österreich {year}", "AUT"),
+    ("Logistikimmobilie Neubau Deutschland {year}", "DEU"),
 ]
 
 _SEARCH_BASE = "https://www.google.com/search?q="
@@ -238,8 +241,10 @@ _SEARCH_BASE = "https://www.google.com/search?q="
 
 def _web_news_items() -> list[Item]:
     now = datetime.now(UTC)
+    year = now.year
     items: list[Item] = []
-    for query, country in _WEB_NEWS_QUERIES:
+    for template, country in _WEB_NEWS_QUERY_TEMPLATES:
+        query = template.format(year=year)
         slug = query[:40].lower().replace(" ", "-")
         try:
             item = Item(

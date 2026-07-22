@@ -95,7 +95,8 @@ async def _run(args: argparse.Namespace) -> None:
 
         # Digest
         min_score: float = cfg.get("min_score", 0.55)
-        digest_items = store.all_scored_for_digest(min_score)
+        digest_days: int = cfg.get("digest_days", 0)
+        digest_items = store.all_scored_for_digest(min_score, digest_days=digest_days)
 
         # Health-Alarm-Check
         from agent3_tender.core import health as health_mod
